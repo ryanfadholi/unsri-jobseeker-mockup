@@ -105,14 +105,15 @@
 
 
   <!-- Pagination Navigation buttons -->
-  <table id="datanav" width="100%"> 
-  <tr>
-    <td><a href=<?php echo "koneksi-main.php?page=$first_page" ?>>First</a></td>
-    <td><a href=<?php echo "koneksi-main.php?page=$prev_page" ?>>Prev</a></td>
-    <td><a href=<?php echo "koneksi-main.php?page=$next_page" ?>>Next</a></td>
-    <td><a href=<?php echo "koneksi-main.php?page=$last_page" ?>>Last</a></td>
-  </tr>
-  </table>
+  <nav aria-label="Registered Users List Navigation">
+  <ul class="pager">
+    <li><a href=<?php echo "koneksi-main.php?page=$first_page" ?>>First</a></li>
+    <li><a href=<?php echo "koneksi-main.php?page=$prev_page" ?>>Previous</a></li>
+    <li><a href=<?php echo "koneksi-main.php?page=$next_page" ?>>Next</a></li>
+    <li><a href=<?php echo "koneksi-main.php?page=$last_page" ?>>Last</a></li>
+  </ul>
+  </nav>
+  
   <!--Primary Data Table -->
   <table align="center" border="3" width="600px">
     <tr>

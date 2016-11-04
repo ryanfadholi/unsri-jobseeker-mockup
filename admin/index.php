@@ -4,11 +4,6 @@
   <title>Bootstrap Example</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Link asli Bootstrap & jQuery
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  -->
 
   <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link href="../css/toastr.css" rel="stylesheet"/>
@@ -17,5 +12,140 @@
   <script src="../js/toastr.js"></script>
 </head>
 <body>
-<nav class="collapse navbar-collapse" id=bs-navbar> <ul class="nav navbar-nav"> <li class=active> <a href=../getting-started/ >Getting started</a> </li> <li> <a href=../css/ >CSS</a> </li> <li> <a href=../components/ >Components</a> </li> <li> <a href=../javascript/ >JavaScript</a> </li> <li> <a href=../customize/ >Customize</a> </li> </ul> <ul class="nav navbar-nav navbar-right"> <li><a href=http://themes.getbootstrap.com onclick='ga("send","event","Navbar","Community links","Themes")'>Themes</a></li> <li><a href=http://expo.getbootstrap.com onclick='ga("send","event","Navbar","Community links","Expo")'>Expo</a></li> <li><a href=http://blog.getbootstrap.com onclick='ga("send","event","Navbar","Community links","Blog")'>Blog</a></li> </ul> </nav>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#adminNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <div class="collapse navbar-collapse" id="adminNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Page 2</a></li>
+        <li><a href="#">Page 3</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- <nav class="collapse navbar-collapse" id=bs-navbar> 
+  <ul class="nav navbar-nav"> 
+    <li class=active> <a href=../getting-started/ >Getting started</a> </li> 
+    <li> <a href=../css/ >Input New Member</a> </li> 
+    <li> <a href=../components/ >View Member</a> </li> 
+    <li> <a href=../javascript/ >Edit Member</a> </li> 
+    <li> <a href=../customize/ ></a> </li> 
+  </ul> 
+  <ul class="nav navbar-nav navbar-right"> 
+    <li><a href=http://themes.getbootstrap.com onclick='ga("send","event","Navbar","Community links","Themes")'>Themes</a></li>
+    <li><a href=http://expo.getbootstrap.com onclick='ga("send","event","Navbar","Community links","Expo")'>Expo</a></li>
+    <li><a href=http://blog.getbootstrap.com onclick='ga("send","event","Navbar","Community links","Blog")'>Blog</a></li> 
+  </ul> 
+</nav>
+<div class="col-sm-12" id="content"> -->
+  <?php
+    require_once("../libs/koneksi.php");
+
+    //Constants, change as needed.
+    $default_page_num = 1;
+    $default_data_per_page = 10;
+
+    $koneksi = new Koneksi();
+    $koneksi->Connect();
+
+    //Determine the current page by URL.
+    if(isset($_GET['page'])){
+      $page_num = $_GET['page'];
+    }else{
+      //If the URL doesn't send a variable, 
+      //use default value instead.
+      $page_num = $default_page_num;
+    }
+
+    //Determine data shown per page by URL.
+    if(isset($_GET['data'])){
+      $data_per_page = $_GET['data'];
+    }else{
+      //If the URL doesn't send a variable, 
+      //use default value instead.
+      $data_per_page = $default_data_per_page;
+    }
+
+    $query_limit_start = ($page_num - 1) * 10 ;
+
+    $query = "SELECT *
+              FROM jobseeker_registration";
+
+    $query_full_result = mysqli_num_rows(mysqli_query($koneksi->link,$query));
+    $query_result = mysqli_query($koneksi->link, $query . " LIMIT $query_limit_start, $data_per_page");
+
+    $first_page = 1;
+    $last_page = $query_full_result / $data_per_page;
+    //If it's already on the first page, prevent the user from going off-limits.
+    $prev_page = ($page_num == $first_page ? $first_page : $page_num - 1);
+    //If it's already on the last page, prevent the user from going off-limits.
+    $next_page = ($page_num == $last_page ? $last_page : $page_num + 1);
+  ?>
+
+
+  <p align="center"><?php echo $query_full_result . " results found.<br>";
+              echo $data_per_page . " results per page shown."; ?></p>
+
+  <hr><br><br>
+  <p align="center"><?php echo "PAGE $page_num/$last_page" ?></p>
+
+
+  <!-- Pagination Navigation buttons -->
+  <table id="datanav" width="100%"> 
+  <tr>
+    <td><a href=<?php echo "koneksi-main.php?page=$first_page" ?>>First</a></td>
+    <td><a href=<?php echo "koneksi-main.php?page=$prev_page" ?>>Prev</a></td>
+    <td><a href=<?php echo "koneksi-main.php?page=$next_page" ?>>Next</a></td>
+    <td><a href=<?php echo "koneksi-main.php?page=$last_page" ?>>Last</a></td>
+  </tr>
+  </table>
+  <!--Primary Data Table -->
+  <table align="center" border="3" width="600px">
+    <tr>
+      <th>No.</th>
+      <th>Nama</th>
+      <th>No. KTP</th>
+      <th>Gender</th>
+      <th>BirthPlace</th>
+      <th>BirthDate</th>
+      <th>address</th>
+      <th>email</th>
+    </tr>
+    <?php
+    $row_number = $query_limit_start + 1;
+    while($row = mysqli_fetch_assoc($query_result)){
+      $html_row = '<td>' . $row_number . '</td>';
+      $html_row .= '<td>' . $row['name'] . '</td>';
+      $html_row .= '<td>' . $row['noktp'] . '</td>';
+      $html_row .= '<td>' . $row['gender'] . '</td>';
+      $html_row .= '<td>' . $row['birthplace'] . '</td>';
+      $html_row .= '<td>' . $row['birthdate'] . '</td>';
+      $html_row .= '<td>' . $row['address'] . '</td>';
+      $html_row .= '<td>' . $row['email'] . '</td>';
+
+      echo '<tr>';
+      echo $html_row;
+      echo '</tr>'; 
+      $row_number++;
+    }
+    ?>
+  </table>
+  <?php
+  $koneksi->Disconnect();
+  ?>
+</div>
 </body>

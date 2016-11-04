@@ -100,11 +100,11 @@
       return $editbtn;
     }
 
-    function delete($key, $values, $field="") {
+    function delete($email) {
       $result='SUCCESS';
-      mysqli_query($this->koneksi->link,"INSERT INTO $table $field VALUES $values") or $result='warning';
+      mysqli_query($this->koneksi->link,"DELETE FROM jobseeker_registration WHERE email=$email") or $result='warning';
       
-      $this->koneksi->disconnect();
+      
       return $result;
     }
   ?>
@@ -141,7 +141,7 @@
       $html_row = '<td>' . $row_number . '</td>';
       $html_row .= '<td>' . $row['email'] . '</td>';
       $html_row .= '<td>' . $row['name'] . '</td>';
-      $html_row .= '<td>' . '<a href=".." class="btn btn-primary" role="button" >Edit</button>' . '<a href=".." class="btn btn-danger" role="button" >Delete</button>' . '</td>';
+      $html_row .= '<td>' . '<a href=".." class="btn btn-primary" role="button" >Edit</button>' . '<a href=".." class="btn btn-danger deletebtn"' . "id="$row['email']"" role="button" >Delete</button>' . '</td>';
       echo '<tr>';
       echo $html_row;
       echo '</tr>'; 
@@ -150,7 +150,7 @@
     ?>
   </table>
   <?php
-  $koneksi->Disconnect();
+  //$koneksi->Disconnect();
   ?>
 </div>
 </body>

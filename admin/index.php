@@ -94,6 +94,19 @@
     $prev_page = ($page_num == $first_page ? $first_page : $page_num - 1);
     //If it's already on the last page, prevent the user from going off-limits.
     $next_page = ($page_num == $last_page ? $last_page : $page_num + 1);
+
+    function tablebtn($key){
+      $editbtn = "<button type=\"button\" class=\"btn btn-primary\" href=\"..\">Edit</button>";
+      return $editbtn;
+    }
+
+    function delete($key, $values, $field="") {
+      $result='SUCCESS';
+      mysqli_query($this->koneksi->link,"INSERT INTO $table $field VALUES $values") or $result='warning';
+      
+      $this->koneksi->disconnect();
+      return $result;
+    }
   ?>
 
 
@@ -128,7 +141,7 @@
       $html_row = '<td>' . $row_number . '</td>';
       $html_row .= '<td>' . $row['email'] . '</td>';
       $html_row .= '<td>' . $row['name'] . '</td>';
-      $html_row .= '<td>' . $row['gender'] . '</td>';
+      $html_row .= '<td>' . '<a href=".." class="btn btn-primary" role="button" >Edit</button>' . '<a href=".." class="btn btn-danger" role="button" >Delete</button>' . '</td>';
       echo '<tr>';
       echo $html_row;
       echo '</tr>'; 

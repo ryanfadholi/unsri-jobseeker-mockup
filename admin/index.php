@@ -21,12 +21,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">WebSiteName</a>
+      <a class="navbar-brand" href="#">Unsri Jobseeker - Admin Panel</a>
     </div>
     <div class="collapse navbar-collapse" id="adminNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a href="#">Page 2</a></li>
+        <li class="active"><a href="#">Jobseeker List</a></li>
+        <li><a href="#">Add New Jobseeker</a></li>
         <li><a href="#">Page 3</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -89,7 +89,7 @@
     $query_result = mysqli_query($koneksi->link, $query . " LIMIT $query_limit_start, $data_per_page");
 
     $first_page = 1;
-    $last_page = $query_full_result / $data_per_page;
+    $last_page = ceil($query_full_result / $data_per_page);
     //If it's already on the first page, prevent the user from going off-limits.
     $prev_page = ($page_num == $first_page ? $first_page : $page_num - 1);
     //If it's already on the last page, prevent the user from going off-limits.
@@ -107,10 +107,10 @@
   <!-- Pagination Navigation buttons -->
   <nav aria-label="Registered Users List Navigation">
   <ul class="pager">
-    <li><a href=<?php echo "koneksi-main.php?page=$first_page" ?>>First</a></li>
-    <li><a href=<?php echo "koneksi-main.php?page=$prev_page" ?>>Previous</a></li>
-    <li><a href=<?php echo "koneksi-main.php?page=$next_page" ?>>Next</a></li>
-    <li><a href=<?php echo "koneksi-main.php?page=$last_page" ?>>Last</a></li>
+    <li><a href=<?php echo "?page=$first_page" ?>>First</a></li>
+    <li><a href=<?php echo "?page=$prev_page" ?>>Previous</a></li>
+    <li><a href=<?php echo "?page=$next_page" ?>>Next</a></li>
+    <li><a href=<?php echo "?page=$last_page" ?>>Last</a></li>
   </ul>
   </nav>
   
@@ -118,26 +118,17 @@
   <table align="center" border="3" width="600px">
     <tr>
       <th>No.</th>
-      <th>Nama</th>
-      <th>No. KTP</th>
-      <th>Gender</th>
-      <th>BirthPlace</th>
-      <th>BirthDate</th>
-      <th>address</th>
-      <th>email</th>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Action</th>
     </tr>
     <?php
     $row_number = $query_limit_start + 1;
     while($row = mysqli_fetch_assoc($query_result)){
       $html_row = '<td>' . $row_number . '</td>';
-      $html_row .= '<td>' . $row['name'] . '</td>';
-      $html_row .= '<td>' . $row['noktp'] . '</td>';
-      $html_row .= '<td>' . $row['gender'] . '</td>';
-      $html_row .= '<td>' . $row['birthplace'] . '</td>';
-      $html_row .= '<td>' . $row['birthdate'] . '</td>';
-      $html_row .= '<td>' . $row['address'] . '</td>';
       $html_row .= '<td>' . $row['email'] . '</td>';
-
+      $html_row .= '<td>' . $row['name'] . '</td>';
+      $html_row .= '<td>' . $row['gender'] . '</td>';
       echo '<tr>';
       echo $html_row;
       echo '</tr>'; 

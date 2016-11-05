@@ -128,26 +128,28 @@
   </nav>
   
   <!--Primary Data Table -->
-  <table align="center" border="3" width="600px">
-    <tr>
+  <table class="table">
+    <thead>
       <th>No.</th>
       <th>Email</th>
       <th>Name</th>
       <th>Action</th>
-    </tr>
+    </thead>
+    <tbody>
     <?php
     $row_number = $query_limit_start + 1;
     while($row = mysqli_fetch_assoc($query_result)){
-      $html_row = '<td>' . $row_number . '</td>';
+      $html_row = '<th scope="row">' . $row_number . '</td>';
       $html_row .= '<td>' . $row['email'] . '</td>';
       $html_row .= '<td>' . $row['name'] . '</td>';
-      $html_row .= '<td>' . '<a href=".." class="btn btn-primary" role="button" >Edit</button>' . '<a href=".." class="btn btn-danger deletebtn"' . "id="$row['email']"" role="button" >Delete</button>' . '</td>';
+      $html_row .= '<td>' . '<a href=".." class="btn btn-primary" role="button" >Edit</button>' . '<a href=".." class="btn btn-danger deletebtn"  "id=\"' . $row['email'] . '" role="button" >Delete</button>' . '</td>';
       echo '<tr>';
       echo $html_row;
       echo '</tr>'; 
       $row_number++;
     }
     ?>
+    </tbody>
   </table>
   <?php
   //$koneksi->Disconnect();

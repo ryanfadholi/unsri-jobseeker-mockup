@@ -68,11 +68,32 @@
         <h4 class="modal-title" id="deleteModalLabel">Confirm Deletion</h4>
       </div>
       <div class="modal-body">
-        Do you really want to delete?
+         <input type="text" name="bookId" id="bookId" value=""/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" id="modaldeletebtn">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="editModalLabel">Edit Member Data</h4>
+      </div>
+      <div class="modal-body">
+        This is where we put the form.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" >Save changes</button>
       </div>
     </div>
   </div>
@@ -95,6 +116,17 @@
       //If the URL doesn't send a variable, 
       //use default value instead.
       $page_num = $default_page_num;
+    }
+
+    //Determine data shown per page by URL.
+    if(isset($_POST['act'])){
+      if($_POST['act'] == 'delete'){
+        delete($_POST['dataid']);
+      }
+    }else{
+      //If the URL doesn't send a variable, 
+      //use default value instead.
+      $data_per_page = $default_data_per_page;
     }
 
     //Determine data shown per page by URL.
@@ -128,7 +160,9 @@
 
     function delete($email) {
       $result='SUCCESS';
-      mysqli_query($this->koneksi->link,"DELETE FROM jobseeker_registration WHERE email=$email") or $result='warning';
+      $koneksi = new Koneksi();
+      $koneksi->connect();
+      mysqli_query($koneksi->link,"DELETE FROM jobseeker_registration WHERE email=$email") or $result='warning';
       
       
       return $result;
@@ -168,7 +202,7 @@
       $html_row = '<th scope="row">' . $row_number . '</td>';
       $html_row .= '<td>' . $row['email'] . '</td>';
       $html_row .= '<td>' . $row['name'] . '</td>';
-      $html_row .= '<td>' . '<button class="btn btn-primary" role="button" >Edit</button>' . '<button type="button" class="btn btn-danger deletebtn" data-toggle="modal" data-target="#deleteModal" value="' . $row['email'] . '">Delete</button>' . '</td>';
+      $html_row .= '<td>' . '<button class="btn btn-primary" role="button" >Edit</button>' . '<button type="button" class="btn btn-danger deletebtn" data-toggle="modal" data-target="#deleteModal" data-id="' . $row['email'] . '">Delete</button>' . '</td>';
       echo '<tr>';
       echo $html_row;
       echo '</tr>'; 
@@ -178,7 +212,25 @@
     </tbody>
   </table>
   <?php
-  //$koneksi->Disconnect();
+    $koneksi->Disconnect();
   ?>
 </div>
+<script type="text/javascript">
+  $('.deletebtn').click( function() {
+    var userID = $(this).data('id');
+    $(".modal-body #bookId").val(userID);
+  });
+
+  $('#modaldeletebtn').click( function() {
+    var ajaxData = { 'act' : 'delete',
+                     'dataid' : $("#bookId").val()}
+    console.log(ajaxData['dataid']);
+    $.ajax({
+      type: "POST",
+      data: ajaxData
+    }).done(function( msg ) {
+        toastr.success(msg);
+    }); //end done button 
+ }); //end modaldeletebtn
+</script>
 </body>

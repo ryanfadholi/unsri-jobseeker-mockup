@@ -52,6 +52,32 @@
   </ul> 
 </nav>
 <div class="col-sm-12" id="content"> -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" >
+  Launch demo modal
+</button>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="deleteModalLabel">Confirm Deletion</h4>
+      </div>
+      <div class="modal-body">
+        Do you really want to delete?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <?php
     require_once("../libs/koneksi.php");
 
@@ -142,7 +168,7 @@
       $html_row = '<th scope="row">' . $row_number . '</td>';
       $html_row .= '<td>' . $row['email'] . '</td>';
       $html_row .= '<td>' . $row['name'] . '</td>';
-      $html_row .= '<td>' . '<a href=".." class="btn btn-primary" role="button" >Edit</button>' . '<a href=".." class="btn btn-danger deletebtn"  "id=\"' . $row['email'] . '" role="button" >Delete</button>' . '</td>';
+      $html_row .= '<td>' . '<button class="btn btn-primary" role="button" >Edit</button>' . '<button type="button" class="btn btn-danger deletebtn" data-toggle="modal" data-target="#deleteModal" value="' . $row['email'] . '">Delete</button>' . '</td>';
       echo '<tr>';
       echo $html_row;
       echo '</tr>'; 

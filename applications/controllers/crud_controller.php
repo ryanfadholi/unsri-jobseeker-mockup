@@ -10,24 +10,61 @@ class CRUDController {
 	var $email;
 	var $action;
 	var $out;
+
+	var $name;
+	var $ktp_id;
+	var $gender;
+	var $birthplace;
+	var $birthdate;
+	var $address;
 	
 	public function __construct() {
 		$this->email =$_POST['email'];
 		$this->action=$_POST['act'];
 		$this->dao = new Dao("pweb");
+
+		if(isset($_POST['name'])){
+			$this->name=$_POST['name'];
+		}
+		if(isset($_POST['ktp_id'])){
+			$this->ktp_id=$_POST['ktp_id'];
+		}
+		if(isset($_POST['address'])){
+			$this->address=$_POST['address'];
+		}
+		if(isset($_POST['gender'])){
+			$this->gender=$_POST['gender'];
+		}
+		if(isset($_POST['birthplace'])){
+			$this->birthplace=$_POST['birthplace'];
+		}
+		if(isset($_POST['birthdate'])){
+			$this->birthdate=$_POST['birthdate'];
+		}
+
 	}
 	
 	public function run() {
 		switch($this->action) {
 			case "getuserbyemail" :
 				$this->getuserbyemail($this->email);
+				break;
+			case "update":
+				$this->update();
+				break;
 			break;
 		}
 	}
 	
 	function register() {
-		$jobseeker = new Jobseeker($this->nama, $this->ktp_id, $this->gender, $this->birthplace, $this->birthdate, $this->address, $this->email);
+		$jobseeker = new Jobseeker($this->name, $this->ktp_id, $this->gender, $this->birthplace, $this->birthdate, $this->address, $this->email);
 		$this->out = $jobseeker->dao->insert("jobseeker_registration", $jobseeker->getValuesForInsert());
+		echo $this->out;
+	}
+
+	function update(){
+		$jobseeker = new Jobseeker($this->name, $this->ktp_id, $this->gender, $this->birthplace, $this->birthdate, $this->address, $this->email);
+		$this->out = $jobseeker->dao->update($jobseeker->getValuesArray());
 		echo $this->out;
 	}
 

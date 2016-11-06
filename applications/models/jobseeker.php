@@ -62,5 +62,9 @@ class JobSeeker {
 	public function getValuesForInsert() {
 		return "('$this->name', '$this->ktp_id', '$this->gender', '$this->birthplace', '$this->birthdate', '$this->address', '$this->email')";
 	}
+	public function getValuesArray() {
+		return array('name' => $this->name, 'ktp_id' => $this->ktp_id, 'gender' => $this->gender, 'birthplace' => $this->birthplace,
+		'birthdate' => $this->birthdate, 'address' => $this->address, 'email' => $this->email);
+	}
 }
 ?>

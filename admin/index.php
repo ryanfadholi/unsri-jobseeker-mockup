@@ -92,7 +92,7 @@
             <div class="col-xs-12 col-sm-6">
               <div class="form-group">
                 <label for="email">Email:</label>
-                <input class="form-control" id="email" type="email" name="email" required disabled></input>
+                <input class="form-control" id="email" type="email" name="email" required readonly></input>
               </div>
               <div class="form-group">
                   <label for="name">Nama:</label>
@@ -262,6 +262,10 @@
 </div>
 <script type="text/javascript">
   function populateEditForm(formData){
+    /*
+    Fill the form in the modal based on the formData object,
+    which is a parse result from the JSON provided by the Jobseeker DAO.
+    */
     $("#form_jobseeker #name").val(formData.name);
     $("#form_jobseeker #ktp_id").val(formData.noktp);
     $("#form_jobseeker #gender").val(formData.gender);
@@ -271,6 +275,7 @@
   }
 
   function clearEditForm(){
+    //Traverse the editModal div, empty the value of every input and textarea found.
     $('#editModal').find('input').val('');   
     $('#editModal').find('textarea').val('');  
   }
@@ -299,22 +304,24 @@
   }); //end deletemodalbtn
 
   $('#editmodalbtn').click( function() {
-    var ajaxData = { 'act' : 'getuserbyemail',
-                     'email' : $('input[name=email]').val()}
-    console.log(ajaxData['email']);
+    var ajaxData = $('#form_jobseeker').serializeArray();
+    ajaxData.push({name: 'act', value: 'update'});
+    console.log(ajaxData);
     $.ajax({
       type: "POST",
       data: ajaxData,
       url: '../applications/controllers/crud_controller.php'
     }).done(function( msg ) {
-          var formData = $.parseJSON(msg);
-          console.log(formData);
-          clearEditForm();
+          console.log(msg);
       }); //end done function
   }); //end deletemodalbtn
 
-  //If the modal is opened, 
+  
   $('#editModal').on('shown.bs.modal', function(e) {
+    /*
+    When an editModal is shown, fill the form based on the
+    email provided when the editModal is called.
+    */
     var ajaxData = { 'act' : 'getuserbyemail',
                      'email' : $('input[name=email]').val()}
     console.log(ajaxData['email']);
@@ -322,17 +329,16 @@
       type: "POST",
       data: ajaxData,
       url: '../applications/controllers/crud_controller.php'
-    }).done(function( msg ) {
-          var formData = $.parseJSON(msg);
-          console.log(formData);
+    }).done(function(result_json) {
+      console.log(result_json);
+          var formData = $.parseJSON(result_json);
           populateEditForm(formData);
-
       }); //end done function
-  }); //end modalShown event handler
+  }); //end modal.shown event handler
 
   //When the modal is closed, clear the form data
   $('#editModal').on('hidden.bs.modal', function () {
-    // do something…
+    clearEditForm();
 })
 </script>
 </body>

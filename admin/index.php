@@ -53,9 +53,7 @@
 </nav>
 <div class="col-sm-12" id="content"> -->
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" >
-  Launch demo modal
-</button>
+
 
 <!-- Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -72,7 +70,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" id="modaldeletebtn">Save changes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="modaldeletebtn" >Save changes</button>
       </div>
     </div>
   </div>
@@ -89,7 +87,49 @@
         <h4 class="modal-title" id="editModalLabel">Edit Member Data</h4>
       </div>
       <div class="modal-body">
-        This is where we put the form.
+        <form id="form_jobseeker">
+          <div class="row">
+            <div class="col-xs-12 col-sm-6">
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input class="form-control" id="email" type="email" name="email" required></input>
+              </div>
+              <div class="form-group">
+                  <label for="name">Nama:</label>
+                  <input class="form-control" id="name" name="name"></input>
+              </div>
+              <div class="form-group">
+                <label for="ktp_id">No. KTP:</label>
+                <input class="form-control" id="ktp_id" name="ktp_id"></input>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select class="form-control" id="gender" name="gender">
+                  <option value="L">Laki-Laki</option>
+                  <option value="P">Perempuan</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="birthplace">Tempat Lahir:</label>
+                <input class="form-control" id="birthplace" name="birthplace"></input>
+              </div>
+              <div class="form-group">
+                <label for="birthdate">Tanggal Lahir:</label>
+                <input type="date" class="form-control" id="birthdate" name="birthdate"></input>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="address">Alamat:</label>
+                <textarea class="form-control" id="address" name="address" rows="4"></textarea>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -162,9 +202,14 @@
       $result='SUCCESS';
       $koneksi = new Koneksi();
       $koneksi->connect();
-      mysqli_query($koneksi->link,"DELETE FROM jobseeker_registration WHERE email=$email") or $result='warning';
+      echo $email;
+      $query = "DELETE FROM jobseeker_registration WHERE email='$email'";
+      echo $query;
+      mysqli_query($koneksi->link,$query) or $result='warning';
       
-      
+      echo '<button type="button" class="btn btn-primary btn-lg" >
+  Launch demo modal
+</button>';
       return $result;
     }
   ?>
@@ -202,7 +247,7 @@
       $html_row = '<th scope="row">' . $row_number . '</td>';
       $html_row .= '<td>' . $row['email'] . '</td>';
       $html_row .= '<td>' . $row['name'] . '</td>';
-      $html_row .= '<td>' . '<button class="btn btn-primary" role="button" >Edit</button>' . '<button type="button" class="btn btn-danger deletebtn" data-toggle="modal" data-target="#deleteModal" data-id="' . $row['email'] . '">Delete</button>' . '</td>';
+      $html_row .= '<td>' . '<button class="btn btn-primary editbtn" data-toggle="modal" data-target="#editModal" data-id="' . $row['email'] . '" >Edit</button>' . '<button type="button" class="btn btn-danger deletebtn" data-toggle="modal" data-target="#deleteModal" data-id="' . $row['email'] . '">Delete</button>' . '</td>';
       echo '<tr>';
       echo $html_row;
       echo '</tr>'; 
@@ -219,7 +264,12 @@
   $('.deletebtn').click( function() {
     var userID = $(this).data('id');
     $(".modal-body #bookId").val(userID);
-  });
+  }); //end deletebtn OnClick
+
+  $('.editbtn').click( function() {
+    var userID = $(this).data('id');
+    $(".modal-body #bookId").val(userID);
+  }); //end deletebtn OnClick
 
   $('#modaldeletebtn').click( function() {
     var ajaxData = { 'act' : 'delete',
@@ -229,7 +279,7 @@
       type: "POST",
       data: ajaxData
     }).done(function( msg ) {
-        toastr.success(msg);
+        toastr.success("Deletion Successful! Please Reload the Page.");
     }); //end done button 
  }); //end modaldeletebtn
 </script>

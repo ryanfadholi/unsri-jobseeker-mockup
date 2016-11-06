@@ -70,7 +70,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="modaldeletebtn" >Save changes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="deletemodalbtn" >Save changes</button>
       </div>
     </div>
   </div>
@@ -92,7 +92,7 @@
             <div class="col-xs-12 col-sm-6">
               <div class="form-group">
                 <label for="email">Email:</label>
-                <input class="form-control" id="email" type="email" name="email" required></input>
+                <input class="form-control" id="email" type="email" name="email" required disabled></input>
               </div>
               <div class="form-group">
                   <label for="name">Nama:</label>
@@ -133,7 +133,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary" >Save changes</button>
+        <button type="button" class="btn btn-primary" id="editmodalbtn">Save changes</button>
       </div>
     </div>
   </div>
@@ -261,6 +261,20 @@
   ?>
 </div>
 <script type="text/javascript">
+  function populateEditForm(formData){
+    $("#form_jobseeker #name").val(formData.name);
+    $("#form_jobseeker #ktp_id").val(formData.noktp);
+    $("#form_jobseeker #gender").val(formData.gender);
+    $("#form_jobseeker #birthplace").val(formData.birthplace);
+    $("#form_jobseeker #birthdate").val(formData.birthdate);
+    $("#form_jobseeker #address").val(formData.address);
+  }
+
+  function clearEditForm(){
+    $('#editModal').find('input').val('');   
+    $('#editModal').find('textarea').val('');  
+  }
+
   $('.deletebtn').click( function() {
     var userID = $(this).data('id');
     $(".modal-body #bookId").val(userID);
@@ -272,7 +286,7 @@
     //$(".modal-body #bookId").val(userID);
   }); //end deletebtn OnClick
 
-  $('#modaldeletebtn').click( function() {
+  $('#deletemodalbtn').click( function() {
     var ajaxData = { 'act' : 'delete',
                      'dataid' : $("#bookId").val()}
     console.log(ajaxData['dataid']);
@@ -280,8 +294,45 @@
       type: "POST",
       data: ajaxData
     }).done(function( msg ) {
-        toastr.success("Deletion Successful! Please Reload the Page.");
-    }); //end done button 
- }); //end modaldeletebtn
+          toastr.success("Deletion Successful! Please Reload the Page.");
+      }); //end done function
+  }); //end deletemodalbtn
+
+  $('#editmodalbtn').click( function() {
+    var ajaxData = { 'act' : 'getuserbyemail',
+                     'email' : $('input[name=email]').val()}
+    console.log(ajaxData['email']);
+    $.ajax({
+      type: "POST",
+      data: ajaxData,
+      url: '../applications/controllers/crud_controller.php'
+    }).done(function( msg ) {
+          var formData = $.parseJSON(msg);
+          console.log(formData);
+          clearEditForm();
+      }); //end done function
+  }); //end deletemodalbtn
+
+  //If the modal is opened, 
+  $('#editModal').on('shown.bs.modal', function(e) {
+    var ajaxData = { 'act' : 'getuserbyemail',
+                     'email' : $('input[name=email]').val()}
+    console.log(ajaxData['email']);
+    $.ajax({
+      type: "POST",
+      data: ajaxData,
+      url: '../applications/controllers/crud_controller.php'
+    }).done(function( msg ) {
+          var formData = $.parseJSON(msg);
+          console.log(formData);
+          populateEditForm(formData);
+
+      }); //end done function
+  }); //end modalShown event handler
+
+  //When the modal is closed, clear the form data
+  $('#editModal').on('hidden.bs.modal', function () {
+    // do something…
+})
 </script>
 </body>

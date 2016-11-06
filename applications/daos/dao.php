@@ -22,9 +22,9 @@ class Dao {
 		return $result;
 	}
 
-	public function getUserByEmail($email, $table) {
+	public function getuserbyemail($email) {
 		$result='SUCCESS';
-		$query_result = mysqli_query($this->koneksi->link,"SELECT * FROM $table WHERE email='$email'") or $result='warning';
+		$query_result = mysqli_query($this->koneksi->link,"SELECT * FROM jobseeker_registration WHERE email='$email'") or $result='warning';
 		
 		$this->koneksi->disconnect();
 

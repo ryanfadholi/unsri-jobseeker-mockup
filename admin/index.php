@@ -268,7 +268,8 @@
 
   $('.editbtn').click( function() {
     var userID = $(this).data('id');
-    $(".modal-body #bookId").val(userID);
+    $('input[name=email]').val(userID);
+    //$(".modal-body #bookId").val(userID);
   }); //end deletebtn OnClick
 
   $('#modaldeletebtn').click( function() {

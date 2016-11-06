@@ -21,5 +21,18 @@ class Dao {
 		$this->koneksi->disconnect();
 		return $result;
 	}
+
+	public function getUserByEmail($email, $table) {
+		$result='SUCCESS';
+		$query_result = mysqli_query($this->koneksi->link,"SELECT * FROM $table WHERE email='$email'") or $result='warning';
+		
+		$this->koneksi->disconnect();
+
+		if($query_result){
+			return mysqli_fetch_assoc($query_result);
+		} else {
+			return false;
+		}
+	}
 }
 ?>

@@ -36,8 +36,14 @@
 </nav>
 <div class="container">
   <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
+          <div id="search-label" align="right">
+            <h2>Search For:</h2>
+          </div>
+        </div>
+        <div class="col-md-8">
             <div id="custom-search-input">
+            <br>
                 <div class="input-group col-md-12">
                     <input type="text" class="form-control input-lg" placeholder="Type the email...." id="searchfield" />
                     <span class="input-group-btn">

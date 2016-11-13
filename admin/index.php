@@ -229,6 +229,25 @@
   //When the modal is closed, clear the form data
   $('#editModal').on('hidden.bs.modal', function () {
     clearEditForm();
-})
+    });
+
+  //  $('#deleteModal').on('shown.bs.modal', function(e) {
+  //   /*
+  //   When an deleteModal is shown, fill the form based on the
+  //   email provided when the deleteModal is called.
+  //   */
+  //   var ajaxData = { 'act' : 'getuserbyemail',
+  //                    'email' : $('input[name=email]').val()}
+  //   console.log(ajaxData['email']);
+  //   $.ajax({
+  //     type: "POST",
+  //     data: ajaxData,
+  //     url: '../applications/controllers/crud_controller.php'
+  //   }).done(function(result_json) {
+  //     console.log(result_json);
+  //         var formData = $.parseJSON(result_json);
+  //         populateEditForm(formData);
+  //     }); //end done function
+  // }); //end modal.shown event handler
 
 </script>

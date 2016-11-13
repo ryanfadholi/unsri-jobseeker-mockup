@@ -91,7 +91,7 @@
     <div class="collapse navbar-collapse" id="adminNavbar">
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Jobseeker List</a></li>
-        <li><a href="#">Add New Jobseeker</a></li>
+        <li><a href="#">Search Jobseeker by Email</a></li>
         <li><a href="#">Page 3</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -167,7 +167,7 @@
   }
 
   $(document).ready(function(){
-    $("#memberlist_table").load("../applications/views/memberlist_table.php");
+    //$("#memberlist_table").load("../applications/views/memberlist_table.php");
   });
 
   $('.deletebtn').click(function(){
@@ -203,8 +203,9 @@
       url: '../applications/controllers/crud_controller.php'
     }).done(function( msg ) {
           console.log(msg);
+          location.href = location.href + "?page=1";
+          location.reload();
       }); //end done function
-    location.reload();
   }); //end deletemodalbtn
 
   

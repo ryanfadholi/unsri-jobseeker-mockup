@@ -60,8 +60,8 @@ class Dao {
 		/*
 		Get a row from jobseeker_registration which email matches the parameter given.
 		*/
-		$query_result = mysqli_query($this->koneksi->link,"SELECT * FROM jobseeker_registration WHERE email='$email'") or $result='warning';
-		
+		$query = "SELECT * FROM jobseeker_registration WHERE email='$email'";
+		$query_result = mysqli_query($this->koneksi->link,$query) or $result='warning';
 		$this->koneksi->disconnect();
 
 		if($query_result){

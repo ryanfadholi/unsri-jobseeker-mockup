@@ -18,17 +18,24 @@ class CRUDController {
 	var $birthdate;
 	var $address;
 	
-	public function __construct() {
-		$this->email =$_POST['email'];
-		$this->action=$_POST['act'];
-		$this->dao = new Dao("pweb");
+	public function __construct($email = NULL) {
 
-		if(isset($_POST['name'])){
-			$this->name=$_POST['name'];
+		if(isset($email)){
+			$this->email = $email;
+			$this->dao = new Dao("pweb");
+			return;
 		}
-		if(isset($_POST['ktp_id'])){
-			$this->ktp_id=$_POST['ktp_id'];
-		}
+			$this->email =$_POST['email'];
+			$this->action=$_POST['act'];
+			$this->dao = new Dao("pweb");
+
+			if(isset($_POST['name'])){
+				$this->name=$_POST['name'];
+			}
+
+			if(isset($_POST['ktp_id'])){
+				$this->ktp_id=$_POST['ktp_id'];
+			}
 		if(isset($_POST['address'])){
 			$this->address=$_POST['address'];
 		}
@@ -41,7 +48,6 @@ class CRUDController {
 		if(isset($_POST['birthdate'])){
 			$this->birthdate=$_POST['birthdate'];
 		}
-
 	}
 	
 	public function run() {
@@ -68,12 +74,28 @@ class CRUDController {
 		echo $this->out;
 	}
 
-	function getuserbyemail($email) {
+	function getuserbyemail($email, $shouldEchoResult = true) {
 		$this->out = $this->dao->getuserbyemail($email);
-		echo json_encode($this->out);
+
+		//Check if it's a PHP or AJAX request from the parameter flag.
+		if($shouldEchoResult){
+			 echo json_encode($this->out);
+		} else {
+			return $this->out;
+		}
 	}
 }
-$crudcon = new CRUDController();
-$crudcon->run();
+
+if(isset($_GET['isajaxcall'])){
+	$isajaxcall	= $_GET['isajaxcall'];
+} else {
+	$isajaxcall = true;
+}
+
+if($isajaxcall){
+	$crudcon = new CRUDController();
+	$crudcon->run();
+}
+
 //*/
 ?>

@@ -92,11 +92,9 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Jobseeker List</a></li>
         <li><a href="viewsingle.php">Search Jobseeker by Email</a></li>
-        <li><a href="#">Page 3</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        <li><a href=".."><span class="glyphicon glyphicon-log-in"></span> Go to Main Page</a></li>
       </ul>
     </div>
   </div>

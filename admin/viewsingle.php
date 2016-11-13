@@ -25,13 +25,11 @@
     </div>
     <div class="collapse navbar-collapse" id="adminNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="#">Jobseeker List</a></li>
-        <li class="active"><a href="#">Search Jobseeker by Email</a></li>
-        <li><a href="#">Page 3</a></li>
+        <li><a href="index.php">Jobseeker List</a></li>
+        <li class="active"><a href="#">Search Jobseeker by email</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          <li><a href=".."><span class="glyphicon glyphicon-log-in"></span> Go to Main Page</a></li>
       </ul>
     </div>
   </div>
@@ -39,7 +37,6 @@
 <div class="container">
   <div class="row">
         <div class="col-md-6">
-        <h2>Custom search field</h2>
             <div id="custom-search-input">
                 <div class="input-group col-md-12">
                     <input type="text" class="form-control input-lg" placeholder="Type the email...." id="searchfield" />
@@ -72,7 +69,7 @@
       $('#content').load("../applications/views/admin_viewbyemail_table.php?email=" + email);
     //if the field IS empty, show a toastr warning.
     } else {
-      toastr.warning("Please type the email first.");
+      toastr.warning("Please type an email first.");
     }    
   }); //end search button OnClick
 </script>

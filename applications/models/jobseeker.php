@@ -58,13 +58,28 @@ class JobSeeker {
 		$this->email = $input;
 	}
 	
-	//getter
-	public function getValuesForInsert() {
-		return "('$this->name', '$this->ktp_id', '$this->gender', '$this->birthplace', '$this->birthdate', '$this->address', '$this->email')";
-	}
 	public function getValuesArray() {
 		return array('name' => $this->name, 'ktp_id' => $this->ktp_id, 'gender' => $this->gender, 'birthplace' => $this->birthplace,
 		'birthdate' => $this->birthdate, 'address' => $this->address, 'email' => $this->email);
+	}
+
+	public function getJobseekerByEmail($email) {
+		$dao = new Dao("pweb");
+		$data = $dao->getuserbyemail($email);
+
+
+		//if DAO returns false (which means either the database don't have entry with that email
+		//or there's error somewhere in the dao), also return false. 
+		if(!$data){
+			return false;
+		} 
+		//else convert the data retrieved to a JobSeeker object and return it.
+		else {
+		return new JobSeeker($data['name'], 
+			$data['noktp'], $data['gender'], 
+			$data['birthplace'], $data['birthdate'], 
+			$data['address'], $data['email']);
+		}
 	}
 }
 ?>

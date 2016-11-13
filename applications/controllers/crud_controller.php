@@ -20,14 +20,14 @@ class CRUDController {
 	
 	public function __construct($email = NULL) {
 
+		$this->dao = new Dao("pweb");
+
 		if(isset($email)){
 			$this->email = $email;
-			$this->dao = new Dao("pweb");
 			return;
 		}
 			$this->email =$_POST['email'];
 			$this->action=$_POST['act'];
-			$this->dao = new Dao("pweb");
 
 			if(isset($_POST['name'])){
 				$this->name=$_POST['name'];
@@ -63,8 +63,8 @@ class CRUDController {
 	}
 	
 	function register() {
-		$jobseeker = new Jobseeker($this->name, $this->ktp_id, $this->gender, $this->birthplace, $this->birthdate, $this->address, $this->email);
-		$this->out = $jobseeker->dao->insert("jobseeker_registration", $jobseeker->getValuesForInsert());
+		$jobseeker = new Jobseeker($this->name, $this->ktp_id, $this->gender, $this->birthplace, $this->birthdate, $this->address, $this->email);	
+		$this->out = $jobseeker->dao->insert("jobseeker_registration", $jobseeker->getValuesArray());
 		echo $this->out;
 	}
 

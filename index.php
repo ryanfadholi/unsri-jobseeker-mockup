@@ -66,11 +66,11 @@ function create_placeholder($page){
 
 <script type="text/javascript">
 
-  $(document).ready(function(){
-    $("#home").addClass("active");
-    $("#content").load("applications/views/placeholder.php?page=Home");
-    changeTitle("Home")
-  });
+  // $(document).ready(function(){
+  //   $("#home").addClass("active");
+  //   $("#content").load("applications/views/placeholder.php?page=Home");
+  //   changeTitle("Home")
+  // });
   
   function changeTitle(name){
      jquery("#article-title").text(name);

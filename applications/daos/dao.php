@@ -14,9 +14,33 @@ class Dao {
 		$this->koneksi->connect();
 	}
 	
-	public function insert($table, $values, $field="") {
+	public function insert($table, $input_values) {
 		$result='SUCCESS';
-		mysqli_query($this->koneksi->link,"INSERT INTO $table $field VALUES $values") or $result='warning';
+
+		$count = 0;
+
+		//INSERT INTO VALUES syntax starts with a bracket
+		$insert_values = "(";
+		//Convert all values in the array to a single string
+		foreach ($input_values as $field => $value) {
+			//Except for the first attribute, add comma before the value
+			//to match MySQL query syntax.
+			switch ($count) {
+				case 0:
+					break;
+				default:
+					$insert_values .= ',';
+					break;
+			}
+
+		$insert_values .= "'$value'";
+		$count++;
+		}
+		//INSERT INTO VALUES syntax ends with a bracket
+		$insert_values .= ")";
+
+		$query = "INSERT INTO $table VALUES $insert_values";
+		mysqli_query($this->koneksi->link, $query) or $result='warning';
 		
 		$this->koneksi->disconnect();
 		return $result;

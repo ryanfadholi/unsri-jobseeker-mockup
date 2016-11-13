@@ -37,7 +37,7 @@ class RegistrationController {
 	
 	function register() {
 		$jobseeker = new Jobseeker($this->nama, $this->ktp_id, $this->gender, $this->birthplace, $this->birthdate, $this->address, $this->email);
-		$this->out = $jobseeker->dao->insert("jobseeker_registration", $jobseeker->getValuesForInsert());
+		$this->out = $jobseeker->dao->insert("jobseeker_registration", $jobseeker->getValuesArray());
 		echo $this->out;
 	}
 }

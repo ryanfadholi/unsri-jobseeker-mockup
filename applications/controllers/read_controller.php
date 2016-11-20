@@ -9,7 +9,9 @@ class ReadController {
 	var $JobSeeker;
 	
 	public function __construct($email) {
-		$this->JobSeeker = getJobseekerByEmail($email);
+		if(!is_array($email)){	
+			$this->JobSeeker = getJobseekerByEmail($email);
+		}
 	}
 	
 	public function run() {
@@ -17,8 +19,8 @@ class ReadController {
 			case "getuserbyemail" :
 				$this->getuserbyemail($this->email);
 				break;
-			case "update":
-				$this->update();
+			case "searchall" :
+				$this->getuserbyemail($this->email);
 				break;
 			break;
 		}

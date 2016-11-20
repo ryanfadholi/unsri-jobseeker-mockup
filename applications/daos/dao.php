@@ -94,5 +94,27 @@ class Dao {
 			return false;
 		}
 	}
+
+	public function search($search_query) {
+		/*
+		Get a row from jobseeker_registration which email matches the parameter given.
+		*/
+		$query = "SELECT * 
+		FROM jobseeker_registration 
+		WHERE email LIKE '%" . $search_query ."%'
+		OR name LIKE '%" . $search_query . "%'
+		OR noktp LIKE '%" . $search_query . "%'
+		OR birthplace LIKE '%" . $search_query . "%'
+		OR address LIKE '%" . $search_query . "%'";
+
+		$query_result = mysqli_query($this->koneksi->link,$query) or $result='warning';
+		$this->koneksi->disconnect();
+
+		if($query_result){
+			return mysqli_fetch_all($query_result,MYSQLI_ASSOC);
+		} else {
+			return false;
+		}
+	}
 }
 ?>

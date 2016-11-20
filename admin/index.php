@@ -92,6 +92,7 @@
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Jobseeker List</a></li>
         <li><a href="viewsingle.php">Search Jobseeker by Email</a></li>
+        <li><a href="search.php">Search</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href=".."><span class="glyphicon glyphicon-log-in"></span> Go to Main Page</a></li>
@@ -123,7 +124,7 @@
       $html_row = '<th scope="row">' . $row_number . '</td>';
       $html_row .= '<td>' . $row['email'] . '</td>';
       $html_row .= '<td>' . $row['name'] . '</td>';
-      $html_row .= '<td>' . '<button class="btn btn-primary editbtn" data-toggle="modal" data-target="#editModal" data-id="' . $row['email'] . '" >Edit</button>' . '<button type="button" class="btn btn-danger deletebtn" data-toggle="modal" data-target="#deleteModal" data-id="' . $row['email'] . '">Delete</button>' . '</td>';
+      $html_row .= '<td>' . '<div class="btn-toolbar"><button class="btn btn-primary editbtn" data-toggle="modal" data-target="#editModal" data-id="' . $row['email'] . '" >Edit</button>' . '<button type="button" class="btn btn-danger deletebtn btn-space" data-toggle="modal" data-target="#deleteModal" data-id="' . $row['email'] . '">Delete</button></div>' . '</td>';
       echo '<tr>';
       echo $html_row;
       echo '</tr>'; 

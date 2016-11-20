@@ -66,8 +66,6 @@ class JobSeeker {
 	public function getJobseekerByEmail($email) {
 		$dao = new Dao("pweb");
 		$data = $dao->getuserbyemail($email);
-
-
 		//if DAO returns false (which means either the database don't have entry with that email
 		//or there's error somewhere in the dao), also return false. 
 		if(!$data){
@@ -80,6 +78,21 @@ class JobSeeker {
 			$data['birthplace'], $data['birthdate'], 
 			$data['address'], $data['email']);
 		}
+	}
+}
+
+function convertArrayToObject($arr){
+	return new JobSeeker($arr['name'], 
+			$arr['noktp'], $arr['gender'], 
+			$arr['birthplace'], $arr['birthdate'], 
+			$arr['address'], $arr['email']);
+}
+
+function searchJobseeker($search_query){
+	$query_results = $dao->searchall($search_query);
+	$result = array();
+	foreach ($query_results as $value) {
+		array_push($result, convertArrayToObject($value));
 	}
 }
 ?>

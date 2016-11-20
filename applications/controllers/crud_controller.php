@@ -22,6 +22,9 @@ class CRUDController {
 
 		$this->dao = new Dao("pweb");
 
+		if(is_array($email)){
+			return;
+		}
 		if(isset($email)){
 			$this->email = $email;
 			return;
@@ -29,13 +32,13 @@ class CRUDController {
 			$this->email =$_POST['email'];
 			$this->action=$_POST['act'];
 
-			if(isset($_POST['name'])){
-				$this->name=$_POST['name'];
-			}
+		if(isset($_POST['name'])){
+			$this->name=$_POST['name'];
+		}
 
-			if(isset($_POST['ktp_id'])){
-				$this->ktp_id=$_POST['ktp_id'];
-			}
+		if(isset($_POST['ktp_id'])){
+			$this->ktp_id=$_POST['ktp_id'];
+		}
 		if(isset($_POST['address'])){
 			$this->address=$_POST['address'];
 		}
@@ -76,6 +79,17 @@ class CRUDController {
 
 	function getuserbyemail($email, $shouldEchoResult = true) {
 		$this->out = $this->dao->getuserbyemail($email);
+
+		//Check if it's a PHP or AJAX request from the parameter flag.
+		if($shouldEchoResult){
+			 echo json_encode($this->out);
+		} else {
+			return $this->out;
+		}
+	}
+
+	function search($search_query, $shouldEchoResult = true){
+		$this->out = $this->dao->search($search_query);
 
 		//Check if it's a PHP or AJAX request from the parameter flag.
 		if($shouldEchoResult){

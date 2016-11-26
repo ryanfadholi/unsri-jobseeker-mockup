@@ -98,6 +98,17 @@ class CRUDController {
 			return $this->out;
 		}
 	}
+
+	function viewall($start, $rows, $shouldEchoResult = true){
+		$this->out = $this->dao->viewall();
+
+		//Check if it's a PHP or AJAX request from the parameter flag.
+		if($shouldEchoResult){
+			 echo json_encode($this->out);
+		} else {
+			return $this->out;
+		}
+	}
 }
 
 if(isset($_GET['isajaxcall'])){

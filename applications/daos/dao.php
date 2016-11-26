@@ -89,7 +89,8 @@ class Dao {
 		$this->koneksi->disconnect();
 
 		if($query_result){
-			return mysqli_fetch_assoc($query_result);
+			return mysqli_fetch_all($query_result,MYSQLI_ASSOC);
+			//return mysqli_fetch_assoc($query_result);
 		} else {
 			return false;
 		}
@@ -109,6 +110,22 @@ class Dao {
 
 		$query_result = mysqli_query($this->koneksi->link,$query) or $result='warning';
 		$this->koneksi->disconnect();
+
+		if($query_result){
+			return mysqli_fetch_all($query_result,MYSQLI_ASSOC);
+		} else {
+			return false;
+		}
+	}
+
+	public function viewall($start, $rows){
+		/*
+		Get all rows from jobseeker_registration.
+		*/ 
+		$query = "SELECT * FROM jobseeker_registration LIMIT $start, $rows";
+
+    	$query_result = mysqli_query($koneksi->link,$query));
+    	$this->koneksi->disconnect();
 
 		if($query_result){
 			return mysqli_fetch_all($query_result,MYSQLI_ASSOC);

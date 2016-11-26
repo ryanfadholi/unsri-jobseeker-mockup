@@ -15,6 +15,8 @@
 
 <?php
     require_once(__DIR__. '/../libs/koneksi.php');
+    require_once('../applications/controllers/crud_controller.php');
+    require_once('../applications/views/crudtable_generator.php');
 
     include('../applications/views/edit_modal.php');
     include('../applications/views/delete_modal.php');
@@ -52,11 +54,13 @@
 
     $query_limit_start = ($page_num - 1) * 10 ;
 
+    $query_result = 
     $query = "SELECT *
               FROM jobseeker_registration";
 
     $query_full_result = mysqli_num_rows(mysqli_query($koneksi->link,$query));
-    $query_result = mysqli_query($koneksi->link, $query . " LIMIT $query_limit_start, $data_per_page");
+    $crudcon = new CRUDController(array());
+    $query_result = $crudcon->viewall($query_limit_start, $data_per_page, false);
 
   $first_page = 1;
   $last_page = ceil($query_full_result / $data_per_page);

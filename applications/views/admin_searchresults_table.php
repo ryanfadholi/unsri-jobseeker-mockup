@@ -1,7 +1,7 @@
 <?php   
   $_GET['isajaxcall'] = false;
-  include '../controllers/crud_controller.php';
-
+  require_once('../controllers/crud_controller.php');
+  require_once('crudtable_generator.php');
   //Determine the email queried by URL.
     if(isset($_GET['query'])){
       $query = $_GET['query'];
@@ -18,27 +18,6 @@
     echo "<h1>No results found!</h1>";
   } else {
     //generate table and its headings
-    ?>
-    <table class="table">
-    <thead>
-      <th>No.</th>
-      <th>Email</th>
-      <th>Name</th>
-    </thead>
-    <tbody>
-    <?php
-    $row_number = 1;
-    foreach ($query_result as $value) {
-      $html_row = '<th scope="row">' . $row_number . '</td>';
-      $html_row .= '<td>' . $value['email'] . '</td>';
-      $html_row .= '<td>' . $value['name'] . '</td>';
-      echo '<tr>';
-      echo $html_row;
-      echo '</tr>'; 
-      $row_number++;
-    }
-    ?>
-    </tbody>
-  </table>
-
-  <?php } ?>
+    generate_jobseeker_table ($query_result);
+  } 
+?>

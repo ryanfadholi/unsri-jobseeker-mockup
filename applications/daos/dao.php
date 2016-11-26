@@ -4,7 +4,7 @@
 	NIM 	:	09021281419050
 */
 
-require_once('../../libs/koneksi.php');
+require_once( __DIR__. '/../../libs/koneksi.php');
 
 class Dao {
 	var $koneksi;
@@ -124,7 +124,7 @@ class Dao {
 		*/ 
 		$query = "SELECT * FROM jobseeker_registration LIMIT $start, $rows";
 
-    	$query_result = mysqli_query($koneksi->link,$query));
+    	$query_result = mysqli_query($this->koneksi->link,$query);
     	$this->koneksi->disconnect();
 
 		if($query_result){

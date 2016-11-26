@@ -3,8 +3,8 @@
 	Nama 	:	Muhammad Ryan Fadholi
 	NIM 	:	09021181419006
 */
-require_once("../models/jobseeker.php");
-require_once("../daos/dao.php");
+require_once( __DIR__. '/../models/jobseeker.php');
+require_once( __DIR__. '/../daos/dao.php');
 
 class CRUDController {
 	var $email;
@@ -18,7 +18,7 @@ class CRUDController {
 	var $birthdate;
 	var $address;
 	
-	public function __construct($email = NULL) {
+	public function __construct ($email = NULL) {
 
 		$this->dao = new Dao("pweb");
 
@@ -29,8 +29,14 @@ class CRUDController {
 			$this->email = $email;
 			return;
 		}
-			$this->email =$_POST['email'];
+		
+		if(isset($_POST['email'])){
+			$this->email=$_POST['email'];
+		}
+
+		if(isset($_POST['act'])){
 			$this->action=$_POST['act'];
+		}
 
 		if(isset($_POST['name'])){
 			$this->name=$_POST['name'];
@@ -100,7 +106,7 @@ class CRUDController {
 	}
 
 	function viewall($start, $rows, $shouldEchoResult = true){
-		$this->out = $this->dao->viewall();
+		$this->out = $this->dao->viewall($start,$rows);
 
 		//Check if it's a PHP or AJAX request from the parameter flag.
 		if($shouldEchoResult){
@@ -122,5 +128,4 @@ if($isajaxcall){
 	$crudcon->run();
 }
 
-//*/
 ?>

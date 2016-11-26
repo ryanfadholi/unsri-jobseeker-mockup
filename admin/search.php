@@ -13,28 +13,10 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#adminNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Unsri Jobseeker - Admin Panel</a>
-    </div>
-    <div class="collapse navbar-collapse" id="adminNavbar">
-      <ul class="nav navbar-nav">
-        <li><a href="index.php">Jobseeker List</a></li>
-        <li><a href="viewsingle.php">Search Jobseeker by email</a></li>
-        <li class="active"><a href="#">Search</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-          <li><a href=".."><span class="glyphicon glyphicon-log-in"></span> Go to Main Page</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<?php  
+  include('header.php');
+?>
+
 <div class="container">
   <div class="row">
         <div class="col-md-4">
@@ -62,6 +44,10 @@
 </div>
 
 <script>
+
+  $(document).ready(function(){
+    $("#search").addClass("active");
+   }); //end document.ready
 
   $('#searchbtn').click(function(){
 

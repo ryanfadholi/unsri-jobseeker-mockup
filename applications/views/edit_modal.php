@@ -60,3 +60,79 @@
     </div>
   </div>
 </div>
+
+<script>
+  function clearEditForm(){
+    //Traverse the editModal div, empty the value of every input and textarea found.
+    $('#editModal').find('input').val('');   
+    $('#editModal').find('textarea').val('');  
+  }
+
+  function populateModalData(formData){
+    /*
+    Fill the form in the modal based on the formData object,
+    which is a parse result from the JSON provided by the Jobseeker DAO.
+    */
+    $("#form_jobseeker #name").val(formData.name);
+    $("#form_jobseeker #ktp_id").val(formData.noktp);
+    $("#form_jobseeker #gender").val(formData.gender);
+    $("#form_jobseeker #birthplace").val(formData.birthplace);
+    $("#form_jobseeker #birthdate").val(formData.birthdate);
+    $("#form_jobseeker #address").val(formData.address);
+  }
+
+  function editModalInitialValue(userEmail){
+    /*
+    Set email on editModal, which is required for another functions
+    MAKE SURE to set this first when using this modal, preferably
+    on the buttonclick event of the button that calls the modal. 
+    */
+    $('input[name=email]').val(userEmail);
+  }
+
+  $('#editModal').on('shown.bs.modal', function(e) {
+    /*
+    When an editModal is shown, fill the form based on the
+    email provided when the editModal is called.
+    */
+    var ajaxData = { 'act' : 'getuserbyemail',
+                     'email' : $('input[name=email]').val()}
+    $.ajax({
+      type: "POST",
+      data: ajaxData,
+      url: '../applications/controllers/crud_controller.php'
+    }).done(function(result_json) {
+        /*
+        The argument is expected to be a JSON data parsed from
+        mysqli_fetch_array(), which is an array.
+        */
+        var formData = $.parseJSON(result_json);
+        //Output is in array, extract the value first.
+        populateModalData(formData[0]);
+      }); //end done function
+  }); //end modal.shown event handler
+
+  $('#editModal').on('hidden.bs.modal', function () {
+    /*
+    When the modal is closed, clear the form data
+    */
+    clearEditForm();
+  }); //end modal.hidden event handler
+  
+  $('#editmodalbtn').click( function() {
+    /*
+    When the button is clicked, call the ajax function.
+    */ 
+    var ajaxData = $('#form_jobseeker').serializeArray();
+    ajaxData.push({name: 'act', value: 'update'});
+    console.log(ajaxData);
+    $.ajax({
+      type: "POST",
+      data: ajaxData,
+      url: '../applications/controllers/crud_controller.php'
+    }).done(function( msg ) {
+          console.log(msg);
+          location.reload();
+      }); //end done function
+  }); //end deletemodalbtn
+</script>

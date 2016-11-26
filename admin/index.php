@@ -18,8 +18,6 @@
     require_once('../applications/controllers/crud_controller.php');
     require_once('../applications/views/crudtable_generator.php');
 
-    include('../applications/views/edit_modal.php');
-    include('../applications/views/delete_modal.php');
     //Constants, change as needed.
     $default_page_num = 1;
     $default_data_per_page = 10;
@@ -80,64 +78,22 @@
             
       return $result;
     }
+
+    include('header.php');
   ?>
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#adminNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Unsri Jobseeker - Admin Panel</a>
-    </div>
-    <div class="collapse navbar-collapse" id="adminNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Jobseeker List</a></li>
-        <li><a href="viewsingle.php">Search Jobseeker by Email</a></li>
-        <li><a href="search.php">Search</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href=".."><span class="glyphicon glyphicon-log-in"></span> Go to Main Page</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
 <div class="container-fluid" id="content">
-   <p align="center"><?php echo $query_full_result . " results found.<br>";
+  <p align="center"><?php echo $query_full_result . " results found.<br>";
               echo $data_per_page . " results per page shown."; ?></p>
 
   <hr><br><br>
 
   <p align="center"><?php echo "PAGE <span class=\"page_num\">$page_num</span>/$last_page" ?></p>
 
-  <!--Primary Data Table -->
-  <table class="table">
-    <thead>
-      <th>No.</th>
-      <th>Email</th>
-      <th>Name</th>
-      <th>Action</th>
-    </thead>
-    <tbody>
-    <?php
-    $row_number = $query_limit_start + 1;
-    while($row = mysqli_fetch_assoc($query_result)){
-      $html_row = '<th scope="row">' . $row_number . '</td>';
-      $html_row .= '<td>' . $row['email'] . '</td>';
-      $html_row .= '<td>' . $row['name'] . '</td>';
-      $html_row .= '<td>' . '<div class="btn-toolbar"><button class="btn btn-primary editbtn" data-toggle="modal" data-target="#editModal" data-id="' . $row['email'] . '" >Edit</button>' . '<button type="button" class="btn btn-danger deletebtn btn-space" data-toggle="modal" data-target="#deleteModal" data-id="' . $row['email'] . '">Delete</button></div>' . '</td>';
-      echo '<tr>';
-      echo $html_row;
-      echo '</tr>'; 
-      $row_number++;
-    }
-    ?>
-    </tbody>
-  </table>
-</div>
+  <!--Generate Primary Data Table -->
+  <?php 
+    generate_jobseeker_table($query_result);
+  ?>
 
   <!-- Pagination Navigation buttons -->
   <nav aria-label="Registered Users List Navigation">
@@ -150,109 +106,10 @@
   </nav>
 
 <script>
-    function populateEditForm(formData){
-    /*
-    Fill the form in the modal based on the formData object,
-    which is a parse result from the JSON provided by the Jobseeker DAO.
-    */
-    $("#form_jobseeker #name").val(formData.name);
-    $("#form_jobseeker #ktp_id").val(formData.noktp);
-    $("#form_jobseeker #gender").val(formData.gender);
-    $("#form_jobseeker #birthplace").val(formData.birthplace);
-    $("#form_jobseeker #birthdate").val(formData.birthdate);
-    $("#form_jobseeker #address").val(formData.address);
-  }
-
-  function clearEditForm(){
-    //Traverse the editModal div, empty the value of every input and textarea found.
-    $('#editModal').find('input').val('');   
-    $('#editModal').find('textarea').val('');  
-  }
 
   $(document).ready(function(){
-    //$("#memberlist_table").load("../applications/views/memberlist_table.php");
-  });
-
-  $('.deletebtn').click(function(){
-    var userID = $(this).data('id');
-    $(".modal-body #bookId").val(userID);
-  }); //end deletebtn OnClick
-
-  $('.editbtn').click(function(){
-    var userID = $(this).data('id');
-    $('input[name=email]').val(userID);
-    //$(".modal-body #bookId").val(userID);
-  }); //end deletebtn OnClick
-
-  $('#deletemodalbtn').click( function() {
-    var ajaxData = { 'act' : 'delete',
-                     'dataid' : $("#bookId").val()}
-    console.log(ajaxData['dataid']);
-    $.ajax({
-      type: "POST",
-      data: ajaxData
-    }).done(function( msg ) {
-          toastr.success("Deletion Successful! Please Reload the Page.");
-      }); //end done function
-  }); //end deletemodalbtn
-
-  $('#editmodalbtn').click( function() {
-    var ajaxData = $('#form_jobseeker').serializeArray();
-    ajaxData.push({name: 'act', value: 'update'});
-    console.log(ajaxData);
-    $.ajax({
-      type: "POST",
-      data: ajaxData,
-      url: '../applications/controllers/crud_controller.php'
-    }).done(function( msg ) {
-          console.log(msg);
-          location.href = location.href + "?page=1";
-          location.reload();
-      }); //end done function
-  }); //end deletemodalbtn
-
-  
-  $('#editModal').on('shown.bs.modal', function(e) {
-    /*
-    When an editModal is shown, fill the form based on the
-    email provided when the editModal is called.
-    */
-    var ajaxData = { 'act' : 'getuserbyemail',
-                     'email' : $('input[name=email]').val()}
-    console.log(ajaxData['email']);
-    $.ajax({
-      type: "POST",
-      data: ajaxData,
-      url: '../applications/controllers/crud_controller.php'
-    }).done(function(result_json) {
-      console.log(result_json);
-          var formData = $.parseJSON(result_json);
-          populateEditForm(formData);
-      }); //end done function
-  }); //end modal.shown event handler
-
-  //When the modal is closed, clear the form data
-  $('#editModal').on('hidden.bs.modal', function () {
-    clearEditForm();
-    });
-
-  //  $('#deleteModal').on('shown.bs.modal', function(e) {
-  //   /*
-  //   When an deleteModal is shown, fill the form based on the
-  //   email provided when the deleteModal is called.
-  //   */
-  //   var ajaxData = { 'act' : 'getuserbyemail',
-  //                    'email' : $('input[name=email]').val()}
-  //   console.log(ajaxData['email']);
-  //   $.ajax({
-  //     type: "POST",
-  //     data: ajaxData,
-  //     url: '../applications/controllers/crud_controller.php'
-  //   }).done(function(result_json) {
-  //     console.log(result_json);
-  //         var formData = $.parseJSON(result_json);
-  //         populateEditForm(formData);
-  //     }); //end done function
-  // }); //end modal.shown event handler
+    $("#jobseeker_list").addClass("active");
+   }); //end document.ready
 
 </script>
+

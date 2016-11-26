@@ -6,6 +6,7 @@ function generate_jobseeker_table($assoc_array = null){
 	      <th>No.</th>
 	      <th>Email</th>
 	      <th>Name</th>
+        <th>Actions</th>
 	    </thead>
 	    <tbody>
 	    <?php

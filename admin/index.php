@@ -14,16 +14,12 @@
 <body>
 
 <?php
-    require_once(__DIR__. '/../libs/koneksi.php');
     require_once('../applications/controllers/crud_controller.php');
     require_once('../applications/views/crudtable_generator.php');
 
     //Constants, change as needed.
     $default_page_num = 1;
     $default_data_per_page = 10;
-
-    $koneksi = new Koneksi();
-    $koneksi->Connect();
 
     //Determine the current page by URL.
     if(isset($_GET['page'])){
@@ -52,13 +48,10 @@
 
     $query_limit_start = ($page_num - 1) * 10 ;
 
-    $query_result = 
-    $query = "SELECT *
-              FROM jobseeker_registration";
-
-    $query_full_result = mysqli_num_rows(mysqli_query($koneksi->link,$query));
     $crudcon = new CRUDController(array());
     $query_result = $crudcon->viewall($query_limit_start, $data_per_page, false);
+
+    $query_full_result = count($query_result);
 
   $first_page = 1;
   $last_page = ceil($query_full_result / $data_per_page);

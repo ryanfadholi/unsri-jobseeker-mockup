@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Global Search</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -28,7 +28,7 @@
             <div id="custom-search-input">
             <br>
                 <div class="input-group col-md-12">
-                    <input type="text" class="form-control input-lg" placeholder="Type the email...." id="searchfield" />
+                    <input type="text" class="form-control input-lg" placeholder="Type the query...." id="searchfield" />
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" type="button" id="searchbtn">
                             <i class="glyphicon glyphicon-search"></i>

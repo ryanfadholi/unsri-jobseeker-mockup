@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>JobseekerKu</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Link asli Bootstrap & jQuery
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  -->
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link href="css/toastr.css" rel="stylesheet"/>
@@ -50,12 +45,6 @@ function create_placeholder($page){
 
 <script type="text/javascript">
 
-  // $(document).ready(function(){
-  //   $("#home").addClass("active");
-  //   $("#content").load("applications/views/placeholder.php?page=Home");
-  //   changeTitle("Home")
-  // });
-  
   function changeTitle(name){
      jquery("#article-title").text(name);
   }

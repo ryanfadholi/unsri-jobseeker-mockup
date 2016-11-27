@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Global Search</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -13,28 +13,10 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#adminNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Unsri Jobseeker - Admin Panel</a>
-    </div>
-    <div class="collapse navbar-collapse" id="adminNavbar">
-      <ul class="nav navbar-nav">
-        <li><a href="index.php">Jobseeker List</a></li>
-        <li><a href="viewsingle.php">Search Jobseeker by email</a></li>
-        <li class="active"><a href="#">Search</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-          <li><a href=".."><span class="glyphicon glyphicon-log-in"></span> Go to Main Page</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<?php  
+  include('header.php');
+?>
+
 <div class="container">
   <div class="row">
         <div class="col-md-4">
@@ -46,7 +28,7 @@
             <div id="custom-search-input">
             <br>
                 <div class="input-group col-md-12">
-                    <input type="text" class="form-control input-lg" placeholder="Type the email...." id="searchfield" />
+                    <input type="text" class="form-control input-lg" placeholder="Type the query...." id="searchfield" />
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" type="button" id="searchbtn">
                             <i class="glyphicon glyphicon-search"></i>
@@ -62,6 +44,10 @@
 </div>
 
 <script>
+
+  $(document).ready(function(){
+    $("#search").addClass("active");
+   }); //end document.ready
 
   $('#searchbtn').click(function(){
 

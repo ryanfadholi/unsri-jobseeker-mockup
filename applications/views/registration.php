@@ -68,7 +68,7 @@ $(function () {
       	 									'Registration FAILED');     
             			}			  
             			else if(data=='SUCCESS'){ 
-       						toastr.success('Registration almost completed, please check your email and click activation link to complete the registration', 'Thank you for registering ' + email); 
+       						toastr.success('Registration completed!, please check your email and click activation link to complete the registration', 'Thank you for registering ' + email); 
             			} 
             			else if(data=='-2'){ 
        						toastr.warning('Please check your email address', 'Invalid Email Address'); 

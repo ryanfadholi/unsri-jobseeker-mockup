@@ -4,7 +4,7 @@
 	NIM 	:	09021281419050
 */
 
-require_once("../daos/dao.php");
+require_once( __DIR__. "/../daos/dao.php");
 
 class JobSeeker {
 	// attributes

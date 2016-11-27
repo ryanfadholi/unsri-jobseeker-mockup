@@ -3,8 +3,8 @@
 	Nama 	:	Muhammad Ryan Fadholi
 	NIM 	:	09021181419006
 */
-require_once("../models/jobseeker.php");
-require_once("../daos/dao.php");
+require_once( __DIR__. '/../models/jobseeker.php');
+require_once( __DIR__. '/../daos/dao.php');
 
 class CRUDController {
 	var $email;
@@ -18,7 +18,7 @@ class CRUDController {
 	var $birthdate;
 	var $address;
 	
-	public function __construct($email = NULL) {
+	public function __construct ($email = NULL) {
 
 		$this->dao = new Dao("pweb");
 
@@ -29,8 +29,14 @@ class CRUDController {
 			$this->email = $email;
 			return;
 		}
-			$this->email =$_POST['email'];
+		
+		if(isset($_POST['email'])){
+			$this->email=$_POST['email'];
+		}
+
+		if(isset($_POST['act'])){
 			$this->action=$_POST['act'];
+		}
 
 		if(isset($_POST['name'])){
 			$this->name=$_POST['name'];
@@ -55,6 +61,9 @@ class CRUDController {
 	
 	public function run() {
 		switch($this->action) {
+			case "delete":
+				$this->delete($_POST['email']);
+				break;
 			case "getuserbyemail" :
 				$this->getuserbyemail($this->email);
 				break;
@@ -65,6 +74,11 @@ class CRUDController {
 		}
 	}
 	
+	function delete($email) {
+   	$this->out = $this->dao->delete($email);
+      return $this->out;
+    }
+
 	function register() {
 		$jobseeker = new Jobseeker($this->name, $this->ktp_id, $this->gender, $this->birthplace, $this->birthdate, $this->address, $this->email);	
 		$this->out = $jobseeker->dao->insert("jobseeker_registration", $jobseeker->getValuesArray());
@@ -98,6 +112,17 @@ class CRUDController {
 			return $this->out;
 		}
 	}
+
+	function viewall($start, $rows, $shouldEchoResult = true){
+		$this->out = $this->dao->viewall($start,$rows);
+
+		//Check if it's a PHP or AJAX request from the parameter flag.
+		if($shouldEchoResult){
+			 echo json_encode($this->out);
+		} else {
+			return $this->out;
+		}
+	}
 }
 
 if(isset($_GET['isajaxcall'])){
@@ -111,5 +136,4 @@ if($isajaxcall){
 	$crudcon->run();
 }
 
-//*/
 ?>

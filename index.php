@@ -19,9 +19,7 @@
 <body>
 <?php 
 function create_placeholder($page){
-  echo "<h1> Hello! " . $page . " is still under construction. Please come back later!</h1>";
-  echo "<h1>Try registering by clicking the Registration button on the left sidebar! </h1>";
- //<h1>Try registering by clicking the "Registration" button on the left sidebar! </h1>"
+  include(__DIR__ . '\applications\views\placeholder.php');
 }
  ?> 
 <div class="jumbotron text-center">
@@ -33,30 +31,16 @@ function create_placeholder($page){
     <div class="col-sm-3 sidenav">
       <h4>Navigation</h4>
       <ul class="nav nav-pills nav-stacked">
-        <li class="sidebar" id="home"><a href="#section1">Home</a></li>
-        <li class="sidebar" id="jobfair"><a href="#section2">Job Fair</a></li>
-        <li class="sidebar" id="registration"><a href="#section3">Registration</a></li>
-        <li class="sidebar" id="guide"><a href="#section4a">Guide</a></li>
+        <li class="sidebar active" id="home"><a href="#section1"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+        <li class="sidebar" id="jobfair"><a href="#section2"><span class="glyphicon glyphicon-education"></span> Job Fair</a></li>
+        <li class="sidebar" id="registration"><a href="#section3"><span class="glyphicon glyphicon-user"></span> Registration</a></li>
+        <li class="sidebar" id="guide"><a href="#section4"><span class="glyphicon glyphicon-file"></span> Guide</a></li>
+        <li class="sidebar" id="admin"><a href="admin"><span class="glyphicon glyphicon-log-in"></span> Go to Admin Page</a></li>
       </ul><br>
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search Blog..">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </span>
-      </div>
     </div>
 
     <div class="col-sm-9" id="content">
-      <!-- <h4><small>RECENT POSTS</small></h4>
-      <hr>
-      <h2 id="article-title">I Love Food</h2>
-      <h5><span class="glyphicon glyphicon-time"></span> Post by Jane Dane, Sep 27, 2015.</h5>
-      <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
-      <p>Food is my passion. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <br><br> -->
-      
+    <?php create_placeholder("Home"); ?>
     </div>
   </div>
 </div>

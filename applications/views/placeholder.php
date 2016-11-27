@@ -1,5 +1,9 @@
 <?php 
-	$page = $_GET['page'];
+	if(isset($_GET['page'])){
+		$page = $_GET['page'];	
+	} else {
+		$page = "Home";
+	}
  ?>
 
 <h1><?php echo "Hello! " . $page . " is still under construction. Please come back later!" ?></h1>

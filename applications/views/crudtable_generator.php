@@ -49,18 +49,6 @@ function generate_jobseeker_table($assoc_array = null){
     var userID = $(this).data('id');
     editModalInitialValue(userID);
     }); //end editbtn OnClick
-
-  $('#deletemodalbtn').click( function() {
-    var ajaxData = { 'act' : 'delete',
-                     'dataid' : $("#bookId").val()}
-    console.log(ajaxData['dataid']);
-    $.ajax({
-      type: "POST",
-      data: ajaxData
-    }).done(function( msg ) {
-          toastr.success("Deletion Successful! Please Reload the Page.");
-      }); //end done function
-  }); //end deletemodalbtn
 </script>
 
 <?php 

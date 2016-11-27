@@ -10,9 +10,18 @@ class Dao {
 	var $koneksi;
 	
 	public function __construct($database) {
-		$this->koneksi = new Koneksi($database);
+		$this->koneksi = new Koneksi();
 		$this->koneksi->connect();
 	}
+
+	function delete($email) {
+      $result='SUCCESS';
+      $query = "DELETE FROM jobseeker_registration WHERE email='$email'";
+      mysqli_query($this->koneksi->link,$query) or $result='warning';
+            
+      return $result;
+    }
+
 	
 	public function insert($table, $input_values) {
 		$result='SUCCESS';

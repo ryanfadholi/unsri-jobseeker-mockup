@@ -60,18 +60,6 @@
   //If it's already on the last page, prevent the user from going off-limits.
   $next_page = ($page_num == $last_page ? $last_page : $page_num + 1);
 
-    function delete($email) {
-      $result='SUCCESS';
-      $koneksi = new Koneksi();
-      $koneksi->connect();
-      echo $email;
-      $query = "DELETE FROM jobseeker_registration WHERE email='$email'";
-      echo $query;
-      mysqli_query($koneksi->link,$query) or $result='warning';
-            
-      return $result;
-    }
-
     include('header.php');
   ?>
 
@@ -103,6 +91,5 @@
   $(document).ready(function(){
     $("#jobseeker_list").addClass("active");
    }); //end document.ready
-
 </script>
 

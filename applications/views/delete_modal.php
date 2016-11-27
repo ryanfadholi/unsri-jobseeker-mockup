@@ -127,5 +127,16 @@
       }); //end done function
   }); //end modal.shown event handler
 
-
+  $('#deletemodalbtn').click( function() {
+    var ajaxData = { 'act' : 'delete',
+                     'email' : $("#useremail").text()}
+    console.log(ajaxData['email']);
+    $.ajax({
+      type: "POST",
+      data: ajaxData,
+      url: '../applications/controllers/crud_controller.php'
+    }).done(function( msg ) {
+          location.reload();
+      }); //end done function
+  }); //end deletemodalbtn
 </script>

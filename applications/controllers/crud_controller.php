@@ -61,6 +61,9 @@ class CRUDController {
 	
 	public function run() {
 		switch($this->action) {
+			case "delete":
+				$this->delete($_POST['email']);
+				break;
 			case "getuserbyemail" :
 				$this->getuserbyemail($this->email);
 				break;
@@ -71,6 +74,11 @@ class CRUDController {
 		}
 	}
 	
+	function delete($email) {
+   	$this->out = $this->dao->delete($email);
+      return $this->out;
+    }
+
 	function register() {
 		$jobseeker = new Jobseeker($this->name, $this->ktp_id, $this->gender, $this->birthplace, $this->birthdate, $this->address, $this->email);	
 		$this->out = $jobseeker->dao->insert("jobseeker_registration", $jobseeker->getValuesArray());
